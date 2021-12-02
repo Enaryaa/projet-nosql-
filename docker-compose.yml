@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+
+  web:
+    build : ./src
+    container_name : web-nosql
+    volumes : 
+      - ./src:/usr/src
+    ports :
+      - 8080:80
+
+  postgres:
+    container_name: postgres-nosql
+    environment:
+      HOSTNAME: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: test
+    image: postgres:alpine
+    ports:
+    - published: 5432
+      target: 5432
+    volumes:
+    - "./bdd/data:/var/lib/postgresql/data"
+
+  mongodb:
+    image: mongo
+    container_name: mongo-nosql
+    volumes:
+      - ./bdd/mongo:/data/db
+    hostname: 'mongodb'
+    ports:
+      - 27017-27019:27017-27019

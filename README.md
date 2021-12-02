@@ -1,9 +1,28 @@
 # Projet Nosql
 
-Pour lancer le projet faire : 
-```git clone xxx```
-```cd xxx```
-```docker-compose up -d```
+Anne-Sophie Besnard et Agathe Da Costa
 
-Pour arreter les containers faire : 
-```docker-compose down```
+## Démarrage du projet
+
+Pour lancer le projet : 
+```
+git clone xx
+cd projet-nosql
+docker-compose up -d
+```
+
+Pour arrêter le projet : 
+```
+docker-compose down
+```
+
+## Structure
+
+Nous avons un site web fait à l'aide du framwork Flask
+Les technologies utilisées pour les bases de données sont :
+- Mongodb
+- Postegres-sql
+
+
+
+

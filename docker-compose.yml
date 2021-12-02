@@ -5,11 +5,12 @@ services:
   web:
     build : ./src
     container_name : web-nosql
+    command: python app.py
     volumes : 
-      - ./src:/usr/src
+      - ./src:/usr/src/app
     ports :
       - 8080:80
-
+    
   postgres:
     container_name: postgres-nosql
     environment:

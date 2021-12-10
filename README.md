@@ -2,6 +2,8 @@
 
 Anne-Sophie Besnard et Agathe Da Costa
 
+
+
 ## Démarrage du projet
 
 Pour lancer le projet : 
@@ -18,7 +20,7 @@ docker-compose down
 
 ## Structure
 
-Nous avons un site web fait à l'aide du framwork Flask
+Nous avons un site web fait à l'aide du framwork Flask (facile et pratique d'utilisation) et de bootstrap pour le CSS.
 Les technologies utilisées pour les bases de données sont :
 - Mongodb
 - Postegres-sql

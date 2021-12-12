@@ -10,6 +10,7 @@
           <tr>
           <th scope="col">Pseudo</th>
           <th scope="col">Ragot</th>
+          <th scope="col">Nombre de like</th>
           <th scope="col">Like</th>
           </tr>
       </thead>
@@ -18,7 +19,10 @@
               <tr>
               <td>{{ragot['pseudo']}}</td>
               <td>{{ragot['ragot']}}</td>
-              <td><button type="button" class="btn btn-outline-danger">Liker</button></td>
+              <td></td>
+              <form  method="POST" action="/like">
+              <td><button type="button" name="like" class="btn btn-outline-danger">Liker</button></td>
+              </form>
               </tr>
           {% endfor %}
       </tbody>

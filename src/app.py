@@ -59,12 +59,15 @@ def signup():
 
 @app.route("/post", methods=["POST", "GET"])
 def post():
+
  if request.method == 'POST':
     if 'pseudo' in session:
+        like = 0
         potins = dbPotin.potin
         potins.insert_one({
             'ragot' : request.form['ragot'], 
-            'pseudo' : session['pseudo']
+            'pseudo' : session['pseudo'],
+            #'like' : like
         })
         flash("Potin envoyé ! ", 'success')
         return render_template('post.html')
@@ -87,8 +90,17 @@ def deco():
     session.pop('pseudo', None)
     return redirect(url_for('index'))
 
+#@app.route("/like", methods=["POST", "GET"])
 #def like():
-#   return like;
+    if request.method == 'POST':
+        if 'pseudo' in session:
+            potins = dbPotin.potin
+            potins.update( {'$inc': {'like': 1}})
+            return redirect(url_for('consult')) 
+
+        flash("Tu n'es pas connecté ", 'danger')
+        return redirect(url_for('index'))
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':

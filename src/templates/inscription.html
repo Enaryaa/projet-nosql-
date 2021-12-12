@@ -5,19 +5,15 @@
 {% block content %}
 <div class="container-sm text-center p-5 mb-4 bg-light rounded-3">
     <h1>Création de compte utilisateur</h1>
-<form>
-    <div class="mb-3">
-      <label for="email" class="form-label">Adresse mail</label>
-      <input type="email" class="form-control" id="mail" aria-describedby="emailHelp">
-    </div>
+<form method="POST" action="/inscription">
     <div class="mb-3">
         <label  class="form-label">Pseudo</label>
-        <input type="text" class="form-control" id="pseudo">
+        <input type="text" class="form-control" name="pseudo" required>
       </div>
     <div class="mb-3">
-      <label for="password" class="form-label">Mot de passe</label>
-      <input type="password" class="form-control" id="password"
-      require>
+      <label  class="form-label">Mot de passe</label>
+      <input type="password" class="form-control" name="password"
+      required>
     </div>
     <button type="submit" class="btn btn-primary">Inscription</button>
   </form>

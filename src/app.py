@@ -43,7 +43,7 @@ def signup():
         if new_user is None:
             pwd = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
             users.insert_one({
-                "pseudo" :  request.form['pseudo'], 
+                'pseudo' :  request.form['pseudo'], 
                 'password' : pwd
                 })
             session['pseudo'] = request.form['pseudo']
@@ -63,7 +63,7 @@ def post():
     if 'pseudo' in session:
         potins = dbPotin.potin
         potins.insert_one({
-            "ragot " : request.form['ragot'], 
+            'ragot' : request.form['ragot'], 
             'pseudo' : session['pseudo']
         })
         flash("Potin envoyé ! ", 'success')

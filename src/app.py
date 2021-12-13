@@ -66,13 +66,16 @@ def post():
 
  if request.method == 'POST':
     if 'pseudo' in session:
+        cursordb = postgresdb.cursor()
+        cursordb.execute("select count(*) from potin;")
+        result=cursordb.fetchone()
+        nb_potins=result[0]
+
         like = 0
-        potins = dbPotin.potin
-        potins.insert_one({
-            'ragot' : request.form['ragot'], 
-            'pseudo' : session['pseudo'],
-            #'like' : like
-        })
+        cursordb.execute("insert into potin values(%s,%s,0,%s);",(int(nb_potins+1),request.form['ragot'],session['pseudo']))
+        postgresdb.commit()
+        #potins = dbPotin.potin
+        #potins.insert_one({'ragot' : request.form['ragot'], 'pseudo' : session['pseudo'],'like' : like})
         flash("Potin envoyé ! ", 'success')
         return render_template('post.html')
         
@@ -98,13 +101,14 @@ def deco():
     session.pop('pseudo', None)
     return redirect(url_for('index'))
 
-#@app.route("/like", methods=["POST", "GET"])
-#def like():
+@app.route("/like", methods=["POST", "GET"])
+def like():
     if request.method == 'POST':
         if 'pseudo' in session:
-            potins = dbPotin.potin
-            potins.update( {'$inc': {'like': 1}})
-            return redirect(url_for('consult')) 
+            cursordb = postgresdb.cursor()
+            cursordb.execute("UPDATE potin SET nombre_likes = nombre_likes+1;")
+            postgresdb.commit()
+            return redirect(url_for('consulter.html')) 
 
         flash("Tu n'es pas connecté ", 'danger')
         return redirect(url_for('index'))

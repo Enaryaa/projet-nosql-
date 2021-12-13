@@ -30,7 +30,7 @@ docker exec -it mongo-nosql mongo
 - Postegres-sql
 pour vérifier la persistance des données en postgres :
 ```
-docker exec -it xxx
+docker exec -it postgres-nosql psql -U test
 ```
 
 

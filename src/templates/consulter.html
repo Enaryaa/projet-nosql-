@@ -15,17 +15,22 @@
           </tr>
       </thead>
       <tbody id="listPotin">
-          {% for ragot in data %}
+        {% for ragot in data %}
+          {% if ragot[4] == True %}
               <tr>
+              <td>{{'Anonyme'}}</td>
+              <td>{{ragot[1]}}</td>
+              <td>{{ragot[2]}}</td> 
+              {% else %}
               <td>{{ragot[3]}}</td>
               <td>{{ragot[1]}}</td>
-              <td>{{ragot[2]}}</td>
-              <td></td>
+              <td>{{ragot[2]}}</td> 
+              {% endif %}
               <form  method="POST" action="/like?id={{ragot[0]}}">
               <td><button type="submit" name="like" class="btn btn-outline-danger">Liker</button></td>
               </form>
               </tr>
-          {% endfor %}
+        {% endfor %}
       </tbody>
   </table>
 </div>

@@ -7,15 +7,26 @@ from pymongo import MongoClient
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '78EmLQyrRV'
 
-
+#MongoDB
 client = MongoClient('mongodb',27017 )
 dbUser=client.user
-dbPotin = client.potin
+dbLike = client.like
 
 #Postgres
 postgresdb = psycopg2.connect(host="postgres-nosql",user="test", password="test",dbname="test")
 
-# methode pour alimenter mongodb
+def getLike():
+    likes = dbLike.like
+    user = likes.find_one({"pseudo" : session['pseudo'], "id_potin": request.args["id"] })
+
+    if user is None:
+        likes.insert_one({
+            'id_potin' : request.args["id"],
+            'pseudo' : session['pseudo']
+        })
+        return True
+
+
 @app.route("/index")
 def index():
     return render_template('index.html')
@@ -36,6 +47,7 @@ def login():
         return redirect(url_for('login'))
         
     return render_template('connexion.html')
+
 
 
 @app.route("/inscription", methods=["POST", "GET"])
@@ -68,10 +80,11 @@ def post():
     if 'pseudo' in session:
         cursordb = postgresdb.cursor()
         cursordb.execute("select count(*) from potin;")
+        checked = 'anonyme' in request.form
         result=cursordb.fetchone()
         nb_potins=result[0]
 
-        cursordb.execute("insert into potin values(%s,%s,0,%s);",(int(nb_potins+1),request.form['ragot'],session['pseudo']))
+        cursordb.execute("insert into potin values(%s,%s,0,%s,%s);",(int(nb_potins+1),request.form['ragot'],session['pseudo'], checked))
         postgresdb.commit()
    
         flash("Potin envoyé ! ", 'success')
@@ -95,17 +108,21 @@ def deco():
     session.pop('pseudo', None)
     return redirect(url_for('index'))
 
+
 @app.route("/like", methods=["POST", "GET"])
 def like():
     if request.method == 'POST':
         if 'pseudo' in session:
             cursordb = postgresdb.cursor()
-            cursordb.execute("UPDATE potin SET nombre_likes = nombre_likes+1 where id_potin= %s;",request.args["id"])
-            postgresdb.commit()
-            return redirect(url_for('consult')) 
+            if getLike() == True:
+                cursordb.execute("UPDATE potin SET nombre_likes = nombre_likes+1 where id_potin= %s;",request.args["id"])
+                postgresdb.commit()
+                return redirect(url_for('consult')) 
+            flash("Tu as déjà aimé ce post ! ", 'danger')
+            return redirect(url_for('consult'))
 
         flash("Tu n'es pas connecté ", 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('consult'))
     return redirect(url_for('index'))
 
 

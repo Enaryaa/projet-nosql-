@@ -74,8 +74,7 @@ def post():
         like = 0
         cursordb.execute("insert into potin values(%s,%s,0,%s);",(int(nb_potins+1),request.form['ragot'],session['pseudo']))
         postgresdb.commit()
-        #potins = dbPotin.potin
-        #potins.insert_one({'ragot' : request.form['ragot'], 'pseudo' : session['pseudo'],'like' : like})
+   
         flash("Potin envoyé ! ", 'success')
         return render_template('post.html')
         
@@ -88,12 +87,8 @@ def post():
 @app.route("/consulter", methods = ['GET'])
 def consult():
     cursordb = postgresdb.cursor()
-    cursordb.execute("select * from potin;")
+    cursordb.execute("select * from potin order by id_potin;")
     data = cursordb.fetchall()
-
-    #potins = dbPotin.potin
-    # if we don't want to print id then pass _id:0
-    #data = potins.find({}, {"_id":0, "ragot": 1, "pseudo": 1 })
     return render_template('consulter.html', data = data)
 
 @app.route("/deco")
@@ -106,9 +101,9 @@ def like():
     if request.method == 'POST':
         if 'pseudo' in session:
             cursordb = postgresdb.cursor()
-            cursordb.execute("UPDATE potin SET nombre_likes = nombre_likes+1;")
+            cursordb.execute("UPDATE potin SET nombre_likes = nombre_likes+1 where id_potin= %s;",request.args["id"])
             postgresdb.commit()
-            return redirect(url_for('consulter.html')) 
+            return redirect(url_for('consult')) 
 
         flash("Tu n'es pas connecté ", 'danger')
         return redirect(url_for('index'))

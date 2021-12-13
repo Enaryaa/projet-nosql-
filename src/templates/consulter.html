@@ -21,8 +21,8 @@
               <td>{{ragot[1]}}</td>
               <td>{{ragot[2]}}</td>
               <td></td>
-              <form  method="POST" action="/like">
-              <td><button type="button" name="like" class="btn btn-outline-danger">Liker</button></td>
+              <form  method="POST" action="/like?id={{ragot[0]}}">
+              <td><button type="submit" name="like" class="btn btn-outline-danger">Liker</button></td>
               </form>
               </tr>
           {% endfor %}

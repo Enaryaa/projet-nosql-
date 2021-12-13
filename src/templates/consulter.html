@@ -17,8 +17,9 @@
       <tbody id="listPotin">
           {% for ragot in data %}
               <tr>
-              <td>{{ragot['pseudo']}}</td>
-              <td>{{ragot['ragot']}}</td>
+              <td>{{ragot[3]}}</td>
+              <td>{{ragot[1]}}</td>
+              <td>{{ragot[2]}}</td>
               <td></td>
               <form  method="POST" action="/like">
               <td><button type="button" name="like" class="btn btn-outline-danger">Liker</button></td>

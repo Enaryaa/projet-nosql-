@@ -1,15 +1,19 @@
 from flask import Flask, render_template, request, redirect, flash, url_for, session
 import bcrypt
-
+import psycopg2
+from pymongo import MongoClient
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '78EmLQyrRV'
 
-from pymongo import MongoClient
+
 client = MongoClient('mongodb',27017 )
 dbUser=client.user
 dbPotin = client.potin
+
+#Postgres
+postgresdb = psycopg2.connect(host="postgres-nosql",user="test", password="test",dbname="test")
 
 # methode pour alimenter mongodb
 @app.route("/index")
@@ -80,9 +84,13 @@ def post():
 
 @app.route("/consulter", methods = ['GET'])
 def consult():
-    potins = dbPotin.potin
+    cursordb = postgresdb.cursor()
+    cursordb.execute("select * from potin;")
+    data = cursordb.fetchall()
+
+    #potins = dbPotin.potin
     # if we don't want to print id then pass _id:0
-    data = potins.find({}, {"_id":0, "ragot": 1, "pseudo": 1 })
+    #data = potins.find({}, {"_id":0, "ragot": 1, "pseudo": 1 })
     return render_template('consulter.html', data = data)
 
 @app.route("/deco")

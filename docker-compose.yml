@@ -14,7 +14,7 @@ services:
   postgres:
     container_name: postgres-nosql
     environment:
-      HOSTNAME: test
+      POSTGRES_DB: test
       POSTGRES_PASSWORD: test
       POSTGRES_USER: test
     image: postgres:alpine
@@ -22,6 +22,7 @@ services:
     - 5432:5432
     volumes:
     - "./bdd/data:/var/lib/postgresql/data"
+
 
   mongodb:
     image: mongo

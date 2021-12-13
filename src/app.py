@@ -71,7 +71,6 @@ def post():
         result=cursordb.fetchone()
         nb_potins=result[0]
 
-        like = 0
         cursordb.execute("insert into potin values(%s,%s,0,%s);",(int(nb_potins+1),request.form['ragot'],session['pseudo']))
         postgresdb.commit()
    

@@ -6,6 +6,7 @@ services:
     build : ./src
     container_name : web-nosql
     command: python app.py
+    restart: unless-stopped
     volumes : 
       - ./src:/usr/src/app
     ports :
@@ -22,6 +23,7 @@ services:
     - 5432:5432
     volumes:
     - "./bdd/data:/var/lib/postgresql/data"
+    - "./src/postgre/script_creation.sql:/docker-entrypoint-initdb.d/script_creation.sql"
 
 
   mongodb:
@@ -32,3 +34,6 @@ services:
     hostname: 'mongodb'
     ports:
       - 27017-27019:27017-27019
+
+    
+    

@@ -14,7 +14,7 @@ docker-compose up -d --build
 
 Pour arrêter le projet : 
 ```
-docker-compose down
+docker-compose down -v
 ```
 
 ## Structure
@@ -26,11 +26,21 @@ Les technologies utilisées pour les bases de données sont :
 pour vérifier la persistance des données de mongodb :
 ```
 docker exec -it mongo-nosql mongo
+
+#table user
+use user 
+db.user.find()
+
+#table like
+user like
+db.like.find()
 ```
 - Postegres-sql
 pour vérifier la persistance des données en postgres :
 ```
 docker exec -it postgres-nosql psql -U test
+#table potin
+SELECT * FROM potin;
 ```
 
 
